@@ -1,14 +1,19 @@
-document.getElementById("searchBtn").addEventListener("click", () => {
-    const city = document.getElementById("cityField").value.trim();
-    if (city) {
-      getCoordinates(city);
-    } else {
-      showError("Please enter a city name");
-    }
-  });
-
-
-
+const weatherDescriptions = {
+    0: "Clear sky",
+    1: "Mainly clear",
+    2: "Partly cloudy",
+    3: "Overcast",
+    45: "Fog",
+    48: "Depositing rime fog",
+    51: "Drizzle: Light",
+    61: "Rain: Slight",
+    63: "Rain: Moderate",
+    65: "Rain: Heavy",
+    80: "Rain showers: Slight",
+    95: "Thunderstorm",
+    99: "Thunderstorm: Heavy hail",
+  };
+  
   async function getCoordinates(city) {
     showError("");
     try {
@@ -31,9 +36,7 @@ document.getElementById("searchBtn").addEventListener("click", () => {
       showError(error.message);
     }
   }
-
-
-
+  
   async function getWeather(latitude, longitude, city, country) {
     try {
       const response = await fetch(
@@ -50,11 +53,7 @@ document.getElementById("searchBtn").addEventListener("click", () => {
       showError(error.message);
     }
   }
-
-
-
-
-
+  
   function displayWeather(weather, city, country) {
     const weatherContainer = document.getElementById("weatherContainer");
     const cityHeader = document.getElementById("cityName");
@@ -71,11 +70,20 @@ document.getElementById("searchBtn").addEventListener("click", () => {
     condition.textContent = `Condition: ${weatherCondition}`;
     windSpeed.textContent = `Wind Speed: ${weather.windspeed} km/h`;
   }
-
-
+  
   function showError(message) {
     const weatherContainer = document.getElementById("weatherContainer");
     weatherContainer.style.display = "none";
     const errorPara = document.getElementById("errorMessage");
     errorPara.textContent = message;
   }
+  
+  // Event listener for search button
+  document.getElementById("searchBtn").addEventListener("click", () => {
+    const city = document.getElementById("cityField").value.trim();
+    if (city) {
+      getCoordinates(city);
+    } else {
+      showError("Please enter a city name");
+    }
+  });
